@@ -38,13 +38,7 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         """Override the default format method to redact PII fields in the log
-        record.
-
-        Args:
-            record (logging.LogRecord): The log record to format.
-
-        Returns:
-            str: The formatted log record with PII fields redacted.
+           record.
         """
         # Get the original formatted message
         msg = super().format(record)
