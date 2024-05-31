@@ -37,16 +37,10 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        """Override the default format method to redact PII fields in the log
-           record.
-        """
-        # Get the original formatted message
+        '''Override the default format to redact PII fields in the log'''
         msg = super().format(record)
-
-        # Redact the sensitive fields in the message
-        redacted_msg = filter_datum(
-            self.fields, self.REDACTION, msg, self.SEPARATOR)
-        return redacted_msg
+        return filter_datum(self.fields, self.REDACTION,
+                            msg, self.SEPARATOR)
 
 
 def filter_datum(fields: List[str], redaction: str, message: str,
