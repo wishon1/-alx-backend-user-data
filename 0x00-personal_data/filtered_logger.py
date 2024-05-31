@@ -20,7 +20,7 @@ class RedactingFormatter(logging.Formatter):
     # Separator used in log messages
     SEPARATOR = ";"
 
-    def __init__(self, fields):
+    def __init__(self, fields: List[str]):
         """Initialize the RedactingFormatter with specific fields to redact"""
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
