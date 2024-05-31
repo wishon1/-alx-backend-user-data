@@ -18,9 +18,9 @@ def hash_password(password: str) -> bytes:
         bytes: The salted and hashed password as a byte string.
     """
     # Encode the plain text password to bytes
-    pss_encoded = password.encode()
+    encoded_pss = password.encode()
     # Generate a salted hash
-    hashed_pss = bcrypt.hashpw(pss_encodedencoded, bcrypt.gensalt())
+    hashed_pss = bcrypt.hashpw(encoded_pss, bcrypt.gensalt())
 
     return hashed_pss
 
