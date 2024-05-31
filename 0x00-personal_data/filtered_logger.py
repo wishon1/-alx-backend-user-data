@@ -20,7 +20,6 @@ class RedactingFormatter(logging.Formatter):
     Redacting Formatter class for logging, which
     redacts specified PII fields.
     """
-
     # Placeholder for redaction
     REDACTION = "***"
     # Format of the log messages
