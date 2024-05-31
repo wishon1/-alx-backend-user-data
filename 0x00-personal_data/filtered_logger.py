@@ -28,19 +28,15 @@ class RedactingFormatter(logging.Formatter):
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
-        """Initialize the RedactingFormatter with fields to redact.
-
-        Args:
-            fields (List[str]): List of PII fields to redact.
-        """
+        """Initialize the RedactingFormatter with fields to redact"""
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        '''Override the default format to redact PII fields in the log'''
+        """Override the default format to redact PII fields in the log"""
         msg = super().format(record)
-        return filter_datum(self.fields, self.REDACTION,
-                            msg, self.SEPARATOR)
+        return filter_datum(self.fields, self.REDACTION, msg,
+                            self.SEPARATOR)
 
 
 def filter_datum(fields: List[str], redaction: str, message: str,
