@@ -114,7 +114,7 @@ class BasicAuth(Auth):
         # Return the User instance if everything is valid
         return user
 
-    def current_user(self, request=None) -> User:
+    def current_user(self, request=None) -> TypeVar('User'):
         """
         Retrieves the user from a request.
 
