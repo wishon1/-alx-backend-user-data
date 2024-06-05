@@ -100,19 +100,16 @@ class BasicAuth(Auth):
             return None
 
         # Search for the user by email using the User class method `search`
-        user_list = User.search({'email': user_email})
-        if not user_list:
+        try:
+            user_list = User.search({'email': user_email})
+            if not user_list or user_list == []:
+                return None
+            for user_eml in user_list:
+                if user_eml.is_valid_password(user_pwd):
+                    return user_eml
             return None
-
-        # Assuming that the search method returns a list of User instances
-        user = user_list[0]
-
-        # Check if the password is valid using the `is_valid_password` method
-        if not user.is_valid_password(user_pwd):
+        except Exception:
             return None
-
-        # Return the User instance if everything is valid
-        return user
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
