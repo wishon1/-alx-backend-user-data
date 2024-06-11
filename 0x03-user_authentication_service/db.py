@@ -5,6 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base, User
 
@@ -40,13 +42,20 @@ class DB:
 
         Returns: The newly created user
         """
-        try:
-            new_usr = User(email=email, hashed_password=hashed_password)
-            self.__session.add(new_usr)
-            self.__session.commit()
-
-        except Exception:
-            self._session.rollback()
-            new_usr = None
+        new_usr = User(email=email, hashed_password=hashed_password)
+        self._session.add(new_usr)
+        self._session.commit()
 
         return new_usr
+
+    def find_user_by(self, **kwargs) -> User:
+        """
+
+        """
+        if kwargs is None:
+            raise InvalidRequestError
+        usr = self._session.query(User).filter_by(**kwargs).first()
+
+        if usr is None:
+            raise NoResultFound
+        return usr
