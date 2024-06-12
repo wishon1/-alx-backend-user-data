@@ -102,3 +102,39 @@ class Auth:
 
         # Verify the provided password against the stored hashed password
         return bcrypt.checkpw(password.encode('utf-8'), usr.hashed_password)
+
+    def create_session(self, email: str) -> str:
+        """
+        Find the user corresponding to the email, generate a new UUID and
+        store it in the database as the user's session_id, then return the
+        session ID.
+
+        Args:
+            email (str): The user's email address.
+
+        Returns:
+            str: The session ID as a string.
+
+        Raises:
+            ValueError: If the user is not found.
+        """
+        # Attempt to retrieve the user from the database using the provided
+        # email
+        try:
+            usr = self._db.find_user_by(email=email)
+        except NoResultFound:
+            # If no user is found with the provided email, return None
+            usr = None
+
+        # Raise a ValueError if the user is not found
+        if usr is None:
+            return None
+
+        # Generate a new UUID to be used as the session ID
+        session_id = _generate_uuid()
+
+        # Update the user's session_id in the database
+        self._db.update_user(usr.id, session_id=session_id)
+
+        # Return the newly generated session ID
+        return session_id
