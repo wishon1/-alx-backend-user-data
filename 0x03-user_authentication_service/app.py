@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route("/", methods=["Get"])
 def home_app():
     '''Route for the root URL that returns a welcome message in JSON format'''
-    return ({"message": "Bienvenue"})
+    return jsonify({"message": "Bienvenue"})
 
 
 if __name__ == "__main__":
