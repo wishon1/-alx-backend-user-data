@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 @app.route("/", methods=["Get"])
-def home_app():
+def home_app() -> str:
     '''Route for the root URL that returns a welcome message in JSON format'''
     return jsonify({"message": "Bienvenue"})
 
