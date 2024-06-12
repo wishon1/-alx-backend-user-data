@@ -32,6 +32,20 @@ def _hash_password(password: str) -> bytes:
     return hashed_pw
 
 
+def _generate_uuid() -> str:
+    """
+    Generate a new UUID.
+
+    This function generates and returns a string representation of a
+    new UUID. It is a private method and should not be used outside of
+    the auth module.
+
+    Returns:
+        str: The string representation of the generated UUID.
+    """
+    return str(uuid.uuid4())
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -88,16 +102,3 @@ class Auth:
 
         # Verify the provided password against the stored hashed password
         return bcrypt.checkpw(password.encode('utf-8'), usr.hashed_password)
-
-    def _generate_uuid() -> str:
-        """
-        Generate a new UUID.
-
-        This function generates and returns a string representation of a
-        new UUID. It is a private method and should not be used outside of
-        the auth module.
-
-        Returns:
-            str: The string representation of the generated UUID.
-        """
-        return str(uuid.uuid4())
