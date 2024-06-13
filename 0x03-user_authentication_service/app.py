@@ -96,12 +96,15 @@ def profile() -> str:
     Use it to find the user. If the user exist, respond with
     a 200 HTTP status and the following JSON payload:
     """
-    session_id = request.cookies.get(session_id)
-    user = AUTH.get_user_from_session_id(session_id)
-    if user:
-        return jsonify({"email": user.email})
-    else:
+    session_id = request.cookies.get("session_id")
+    if not session_id:
         abort(403)
+
+    user = AUTH.get_user_from_session_id(session_id)
+    if not user:
+        abort(403)
+
+    return jsonify({"email": user.email}), 200
 
 
 if __name__ == "__main__":
