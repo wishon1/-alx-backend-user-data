@@ -88,7 +88,7 @@ def logout() -> str:
     return redirect('/')
 
 
-@app.route("/profile", methods=["GET"])
+@app.route("/profile", methods=["GET"], strict_slashes=False)
 def profile() -> str:
     """
     function to respond to the GET /profile route.
