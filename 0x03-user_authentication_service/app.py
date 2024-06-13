@@ -62,7 +62,7 @@ def login() -> str:
 
 
 @app.route("/sessions", methods=["DELETE"])
-def logout():
+def logout() -> str:
     """
     Logs out a user by destroying their session.
 
@@ -86,6 +86,22 @@ def logout():
 
     # Redirect the user to the home page
     return redirect('/')
+
+
+@app.route("/profile", methods=["GET"])
+def profile() -> str:
+    """
+    function to respond to the GET /profile route.
+    The request is expected to contain a session_id cookie.
+    Use it to find the user. If the user exist, respond with
+    a 200 HTTP status and the following JSON payload:
+    """
+    session_id = request.cookies.get(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
+    if user:
+        return jsonify({"email": user.email}), 200
+    else:
+        abort(403)
 
 
 if __name__ == "__main__":
