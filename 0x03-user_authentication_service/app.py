@@ -2,7 +2,7 @@
 """
 Basic Flask app with a single GET route that returns a JSON payload.
 """
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 AUTH = Auth()
