@@ -61,5 +61,32 @@ def login() -> str:
         abort(401)
 
 
+@app.route("/sessions", methods=["DELETE"])
+def logout():
+    """
+    Logs out a user by destroying their session.
+
+    Expects a session ID in the request cookies with the key
+    "session_id". If the session ID is valid, destroys the session and
+    redirects to the home page. If not, returns a 403 HTTP status.
+    """
+
+    # Extract the session ID from the request cookies
+    session_id = request.cookies.get("session_id")
+
+    # Get the user associated with the session ID
+    user = AUTH.get_user_from_session_id(session_id)
+
+    # If no user is found, abort with a 403 HTTP status
+    if not user:
+        abort(403)
+
+    # Destroy the session for the user
+    AUTH.destroy_session(user.id)
+
+    # Redirect the user to the home page
+    return redirect('/')
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
